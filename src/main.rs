@@ -35,12 +35,13 @@ fn build_ui(app: &Application) {
         .build();
 
     // A mutable integer for increment and decrement
-    let mut number: Rc<Cell<i32>> = Rc::new(Cell::new(0));
+    let number = Rc::new(Cell::new(0));
 
     // Connecting callbacks
     // When a button is clicked number value will change
-    button_increase.connect_clicked( move |_| number+=1);
-    button_decrease.connect_clicked(|_| number-=1); 
+    let number_copy = number.clone();
+    button_increase.connect_clicked(move |_| number_copy.set(number_copy.get()+1));
+    button_decrease.connect_clicked(move |_| number.set(number.get()-1)); 
 
     // Add Buttons to gtk_box
     let gtk_box = gtk::Box::builder()
